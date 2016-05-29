@@ -1,0 +1,33 @@
+
+@media only screen and (min-width: 480px) {
+  .form-contain {
+    width: 40%;
+  }
+}
+.form-contain {
+  padding: 20px;
+}
+header.tubruk {
+  background-image: url(image/about.jpg);
+  background-size: cover;
+  background-position: center;
+  padding: 20px;
+  margin-bottom: -240px;
+  height: 400px;
+}
+header.beranda {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  background-color: teal;
+  height: 400px;
+  margin-bottom: -350px;
+}
+header.parallax-container {
+  position: relative;
+}
+header.parallax-container .span-title {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.89);
+}
