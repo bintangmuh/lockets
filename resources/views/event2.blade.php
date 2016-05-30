@@ -55,7 +55,7 @@
               <td class="center-align">{{ ($type->seat == 1) ? "Yes" : "No" }}</td>
               <td class="center-align">{{ (($type->limit - $type->tickets()->count())) }}</td>
               <td class="center-align">Rp.{{ $type->price }}</td>
-              <td class="center-align"><a href="#" class="btn teal"><i class="mdi mdi-cart"></i></a></td>
+              <td class="center-align"><a href="#" class="btn teal waves-effect waves-light buy" data-nametype="{{ $type->name }}" data-price="{{ $type->price }}" data-type="{{ $type->id }}"><i class="mdi mdi-cart"></i></a></td>
 
             </tr>
           @endforeach
@@ -66,14 +66,20 @@
     <!-- {{ $event->type }}a -->
   </div>
 
-  <div id="modal1" class="modal">
-    <div class="modal-content">
-      <h4>Modal Header</h4>
-      <p>A bunch of text</p>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-    </div>
+  <div id="formodal" class="modal">
+    <form class="" action="index.html" method="post">
+      <div class="modal-content">
+        <h5 class="center-align"><i class="mdi mdi-ticket-confirmation"></i> are you sure buy a ticket {{ $event->name }}? <i class="mdi mdi-ticket-confirmation"></i></h5>
+        <p>
+          <h3 class="teal-text center-align"><i class="mdi mdi-ticket"></i> <b id="classtag"></b> <i class="mdi mdi-ticket"></i></h3>
+          <h4 class="teal-text center-align"><i>Rp.</i>  <i id="pricetag"></i></i></h4>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class=" modal-action waves-effect waves-green btn-flat btn-skirim">OK</a>
+        <a class=" modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+      </div>
+    </form>
   </div>
 @stop
 
@@ -81,6 +87,12 @@
 <script type="text/javascript">
 $(document).ready(function(){
     $('.parallax').parallax();
+    $('.buy').click(function() {
+      $('#formodal').openModal();
+      $("#classtag").html($(this).data('nametype'));
+      $("#pricetag").html($(this).data('price'));
+      $(".btn-skirim").attr('href', '{{ URL::route('index') }}/buy/'+$(this).data('type'));
+    });
   });
 </script>
 @stop

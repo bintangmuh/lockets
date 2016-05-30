@@ -15,7 +15,9 @@
         <p class="white-text">
           Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         </p>
-
+        <p>
+          <a href="{{URL::route('createEventView')}}" class="btn waves-effect waves-light"><i class="mdi mdi-plus"></i> Add New Event</a>
+        </p>
         @foreach($event as $acara)
           <div class="card">
             <div class="card-content">
@@ -33,7 +35,7 @@
               </div>
             </div>
             <div class="card-action right-align">
-              <a href="{{ URL::route('addseat', ['id' => $acara->id]) }}"><i class="mdi mdi-plus"></i><i class="mdi mdi-seat-legroom-normal"></i> Add Seat</a>
+              <a href="{{ URL::route('addseat', ['id' => $acara->id]) }}"><i class="mdi mdi-plus"></i><i class="mdi mdi-seat-legroom-normal"></i> Seat Manage</a>
               <a href="{{ URL::route('editEvent', ['id' => $acara->id]) }}" ><i class="mdi mdi-pencil"></i> Edit</a>
               <a href="{{ URL::route('showEvent', ['id' => $acara->id ]) }}" ><i class="mdi mdi-eye"></i> View</a>
             </div>

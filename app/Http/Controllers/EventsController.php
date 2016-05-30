@@ -15,7 +15,7 @@ class EventsController extends Controller
     }
     public function showEvent($id) {
       $event = Event::find($id);
-      return view('event', ['event' => $event]);
+      return view('event2', ['event' => $event]);
     }
 
     public function createEventView() {
@@ -45,7 +45,14 @@ class EventsController extends Controller
     }
 
     public function editEvent($id) {
-      return dd(Input::all());
+      $event = Event::findOrFail($id);
+      $event->name = Input::get('name');
+      $event->place = Input::get('place');
+      $event->timeheld = Input::get('time');
+      $event->description = Input::get('desc');
+      $event->save();
+
+      return redirect()->route('showEvent',['id' => $event->id]);
     }
 
 

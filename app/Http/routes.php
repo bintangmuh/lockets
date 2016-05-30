@@ -50,6 +50,10 @@ Route::get('tickets', [
   'as' => 'ticketmanager'
 ]);
 
+Route::get('buy/{id}', [
+  'uses' => 'UserController@buyTicket',
+  'as' => 'buyTicket'
+]);
 
 //middleware user punya ticket
 Route::get('print/{id}', [

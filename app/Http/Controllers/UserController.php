@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\User as User;
 use App\Event as Event;
 use App\Ticket as Ticket;
+use App\Type as Type;
 use Input;
 
 class UserController extends Controller
@@ -62,5 +63,19 @@ class UserController extends Controller
     public function eventlist() {
       $user = User::find(1);
       return view('eventmanager',['event' => $user->events->sortByDesc('timeheld')]);
+    }
+
+    public function buyTicket($tyid) {
+      $user = User::find(1);
+      $type = Type::find($tyid);
+      if ((($type->limit) - ($type->tickets()->count())) > 0) {
+        $ticket = new Ticket();
+        $ticket->type_id = $tyid;
+        $ticket->paid = 0;
+        $ticket->save();
+        $user->ticket()->save($ticket);
+        return "Berhasil";
+      }
+      return "Penuh";
     }
 }
