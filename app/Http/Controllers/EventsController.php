@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Event as Event;
+use App\Type as Type;
 use Input;
 class EventsController extends Controller
 {
@@ -22,10 +23,20 @@ class EventsController extends Controller
     }
 
     public function addSeatView($id) {
-      return 'add seat to id'. $id;
+      $event = Event::findOrFail($id);
+      return view('addseat',['events' => $event]);
     }
+
     public function createSeat($id) {
-      return 'created seat';
+      $event = Event::findOrFail($id);
+      $type = new Type([
+        'name' => Input::get('typename'),
+        'seat' => Input::get('seat'),
+        'limit' => Input::get('limit'),
+        'price' => Input::get('price')
+      ]);
+      $event->type()->save($type);
+      return redirect()->route('addseat', [$event->id]);
     }
 
     public function editEventView($id) {
@@ -54,6 +65,20 @@ class EventsController extends Controller
       $event->save();
 
       return redirect('showEvent',['id' => $event->id]);
+    }
 
+    public function editseat($id, $idseat) {
+        $type = Type::findOrFail($idseat);
+        $type->name = Input::get('typename');
+        $type->seat = Input::get('seat');
+        $type->limit = Input::get('limit');
+        $type->price = Input::get('price');
+        $type->save();
+        return redirect()->route('addseat', ['id' => $type->event_id]);
+    }
+
+    public function typeJson($id) {
+      $type = Type::findOrFail($id);
+      return $type->toJson();
     }
 }

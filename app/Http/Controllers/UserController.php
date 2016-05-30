@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\User as User;
 use App\Event as Event;
+use App\Ticket as Ticket;
 use Input;
 
 class UserController extends Controller
@@ -51,6 +52,13 @@ class UserController extends Controller
     {
 
     }
+
+    public function print($id)
+    {
+      $ticket = Ticket::findOrFail($id);
+      return view('print.ticket',['ticket' => $ticket]);
+    }
+
     public function eventlist() {
       $user = User::find(1);
       return view('eventmanager',['event' => $user->events->sortByDesc('timeheld')]);

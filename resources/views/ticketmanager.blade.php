@@ -36,7 +36,7 @@
                 <td>{{ $ticket->type->event->timeheld->format('d M Y H:i') }}</td>
                 <td>{{ $ticket->edited_at }}</td>
                 <td>{{ $ticket->type->name.'-'.$ticket->id }}</td>
-                <td><a href="#" class="btn btn-waves"><i class="mdi mdi-printer"></i></a></td>
+                <td><a href="{{ URL::route('printticket', ['id' => $ticket->id ])}}" class="btn btn-waves"><i class="mdi mdi-printer"></i></a></td>
               </tr>
               @endforeach
             </tbody>

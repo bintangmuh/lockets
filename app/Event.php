@@ -13,8 +13,6 @@ class Event extends Model
       return $this->hasMany('App\Type', 'event_id');
     }
 
-    
-
     public function author() {
       return $this->belongsTo('App\User','user_id');
     }

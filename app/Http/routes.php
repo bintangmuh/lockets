@@ -51,7 +51,11 @@ Route::get('tickets', [
 ]);
 
 
-
+//middleware user punya ticket
+Route::get('print/{id}', [
+  'uses' => 'UserController@print',
+  'as' => 'printticket'
+]);
 //middleware user author, penulis yang hanya bisa masuk
 Route::get('event/{id}/edit', [
   'uses' => 'EventsController@editEventView',
@@ -68,9 +72,23 @@ Route::get('event/{id}/addeseat', [
   'as' => 'addseat'
 ]);
 
+Route::get('typejson')->name('urltype');
+
+Route::get('typejson/{id}/', [
+  'uses' => 'EventsController@typeJson',
+  'as' => 'jsontype'
+]);
+
 Route::post('event/{id}/addeseat', [
   'uses' => 'EventsController@createSeat',
   'as' => 'createSeat'
+]);
+
+Route::get('event/{id}/editseat')->name('posteditform');
+
+Route::post('event/{id}/editseat/{idseat}', [
+  'uses' => 'EventsController@editseat',
+  'as' => 'editseat'
 ]);
 
 //tanpa middleware

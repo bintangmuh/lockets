@@ -1,6 +1,6 @@
 @extends('master')
 @section('title')
-  Ticket Manager
+  Event Manager
 @stop
 
 @section('content')
