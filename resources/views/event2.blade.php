@@ -5,6 +5,7 @@
 @stop
 
 @section('content')
+  @include('partial.navbar')
   <header class="parallax-container">
     <div class="parallax">
       <img  src="{{ URL::asset('image/about.jpg')}}" class="responsive-img" alt="" />
@@ -93,6 +94,9 @@ $(document).ready(function(){
       $("#pricetag").html($(this).data('price'));
       $(".btn-skirim").attr('href', '{{ URL::route('index') }}/buy/'+$(this).data('type'));
     });
+    $(".button-collapse").sideNav();
+    
   });
+
 </script>
 @stop

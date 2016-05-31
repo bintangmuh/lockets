@@ -43,39 +43,18 @@ class UserController extends Controller
       return view('Beranda', ['events' => $events, 'user' => $user]);
     }
 
-    public function ticket() {
-      $user = User::find(1);
-      $ticket = $user->ticket;
-      // return $user->ticket;
-      return view('ticketmanager', ['tickets' => $ticket]);
-    }
+
     public function editdata($id)
     {
 
     }
 
-    public function print($id)
-    {
-      $ticket = Ticket::findOrFail($id);
-      return view('print.ticket',['ticket' => $ticket]);
-    }
+
 
     public function eventlist() {
       $user = User::find(1);
       return view('eventmanager',['event' => $user->events->sortByDesc('timeheld')]);
     }
 
-    public function buyTicket($tyid) {
-      $user = User::find(1);
-      $type = Type::find($tyid);
-      if ((($type->limit) - ($type->tickets()->count())) > 0) {
-        $ticket = new Ticket();
-        $ticket->type_id = $tyid;
-        $ticket->paid = 0;
-        $ticket->save();
-        $user->ticket()->save($ticket);
-        return "Berhasil";
-      }
-      return "Penuh";
-    }
+
 }

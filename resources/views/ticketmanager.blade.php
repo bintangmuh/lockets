@@ -30,14 +30,18 @@
             </thead>
             <tbody>
               @foreach($tickets as $ticket)
-              <tr>
+              <tr id="row-{{$ticket->id}}">
                 <td>{{ $ticket->type->name }}</td>
                 <td>{{ $ticket->type->event->name }}</td>
                 <td>{{ $ticket->type->event->timeheld->format('d M Y H:i') }}</td>
                 <td>{{ $ticket->created_at }}</td>
                 <td>{{ ($ticket->paid == 1)?"Paid":"Waiting" }}</td>
                 <td>{{ $ticket->type->name.'-'.$ticket->id }}</td>
-                <td><a href="{{ URL::route('printticket', ['id' => $ticket->id ])}}" class="btn btn-waves"><i class="mdi mdi-printer"></i></a></td>
+                @if ($ticket->paid == 1)
+                <td><a href="{{ URL::route('printticket', ['id' => $ticket->id ])}}" class="btn waves-effect"><i class="mdi mdi-printer"></i> Print</a></td>
+                @else
+                <td><a href="#" class="btn waves-effect red lighten-1 cancel-btn" data-event="{{ $ticket->type->event->name }}"  data-ticket="{{ $ticket->id }}" ><i class="mdi mdi-bookmark-remove"></i> Cancel</a></td>
+                @endif
               </tr>
               @endforeach
             </tbody>
@@ -47,8 +51,56 @@
     </div>
   </div>
 
+  <!-- Modal -->
+  <div id="alert-modal" class="modal">
+  <div class="modal-content">
+    <h4>Confimation</h4>
+    <p id="event-conf"></p>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">disagree</a>
+    <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat cancel-agree">Agree</a>
+  </div>
+</div>
+
+  @stop
 @section('scriptjs')
 <script type="text/javascript">
   $(".button-collapse").sideNav();
+  $(document).ready(function(){
+    var id;
+    var eventname;
+      // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.cancel-btn').click(function() {
+      $('#alert-modal').openModal();
+      $('#event-conf').html('Are you sure to cancel the '+ $(this).data('event') +' ticket?');
+      id = $(this).data('ticket');
+      eventname = $(this).data('event');
+    });
+
+    $('.cancel-agree').click(function() {
+      $.ajax({
+        url: '{{ URL::route('index')}}/cancel/'+id,
+        type: 'GET',
+        success: function(data) {
+          if (data == "deleted") {
+            Materialize.toast('Ticket '+ eventname +' canceled', 4000);
+            $('#row-'+id).remove();
+          } else {
+            Materialize.toast('Ticket cancel failed', 4000);
+          }
+        }})
+      .done(function() {
+        console.log("success");
+      })
+      .fail(function() {
+        Materialize.toast('Failed to connect', 4000);
+      })
+      .always(function() {
+        console.log("complete");
+      });
+
+    });
+  });
 </script>
 @stop

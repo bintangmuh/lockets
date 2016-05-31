@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Print Ticket - {{ $ticket->type->event->name }}</title>
+    <title></title>
   </head>
   <body>
     <table border="1">

@@ -30,6 +30,16 @@
           </div>
         </div>
         <div class="col s12 m8">
+          <div class="col s6 m6">
+            <div class="card">
+              <div class="card-content center-align">
+                <p>
+                  Have an Event? Why you don't try sell your ticket here?
+                </p>
+                <a href="{{ URL::route('createEventView') }}" class="btn-floating btn-large waves-effect waves-light red"><i class="mdi mdi-calendar-plus"></i></a>
+              </div>
+            </div>
+          </div>
           @foreach($events as $acara)
             <div class="col s6 m6">
               <div class="card">
@@ -45,16 +55,6 @@
               </div>
             </div>
           @endforeach
-            <div class="col s6 m6">
-              <div class="card">
-                <div class="card-content center-align">
-                  <p>
-                    Have an Event? Why you don't try sell your ticket here?
-                  </p>
-                  <a href="{{ URL::route('createEventView') }}" class="btn-floating btn-large waves-effect waves-light red"><i class="mdi mdi-calendar-plus"></i></a>
-                </div>
-              </div>
-            </div>
       </div>
         </div>
       </div>

@@ -35,6 +35,9 @@
               </div>
             </div>
             <div class="card-action right-align">
+              @foreach($acara->type as $type)
+                {{ $type->tickets()->unpaid()->count() }}
+              @endforeach
               <a href="{{ URL::route('addseat', ['id' => $acara->id]) }}"><i class="mdi mdi-plus"></i><i class="mdi mdi-seat-legroom-normal"></i> Seat Manage</a>
               <a href="{{ URL::route('editEvent', ['id' => $acara->id]) }}" ><i class="mdi mdi-pencil"></i> Edit</a>
               <a href="{{ URL::route('showEvent', ['id' => $acara->id ]) }}" ><i class="mdi mdi-eye"></i> View</a>

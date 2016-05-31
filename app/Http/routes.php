@@ -13,7 +13,6 @@
 
 Route::get('/', function () {
     $event =  App\Event::all();
-
     return view('home', ['event' => $event]);
 })->name('index');
 
@@ -46,18 +45,23 @@ Route::get('eventmanager',[
 ]);
 
 Route::get('tickets', [
-  'uses' => 'UserController@ticket',
+  'uses' => 'TicketController@ticket',
   'as' => 'ticketmanager'
 ]);
 
 Route::get('buy/{id}', [
-  'uses' => 'UserController@buyTicket',
+  'uses' => 'TicketController@buyTicket',
   'as' => 'buyTicket'
+]);
+
+Route::get('cancel/{id}', [
+  'uses' => 'TicketController@cancel',
+  'as' => 'cancelticket'
 ]);
 
 //middleware user punya ticket
 Route::get('print/{id}', [
-  'uses' => 'UserController@print',
+  'uses' => 'TicketController@print',
   'as' => 'printticket'
 ]);
 //middleware user author, penulis yang hanya bisa masuk
