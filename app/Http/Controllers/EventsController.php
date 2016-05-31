@@ -74,6 +74,16 @@ class EventsController extends Controller
       return redirect('showEvent',['id' => $event->id]);
     }
 
+    public function approveView($id) {
+      $event = Event::findOrFail($id);
+      return view('approval', ['event' => $event]);
+    }
+
+    public function reportview($id) {
+      $event = Event::findOrFail($id);
+      return view('reportevent', ['event' => $event]);
+    }
+
     public function editseat($id, $idseat) {
         $type = Type::findOrFail($idseat);
         $type->name = Input::get('typename');
@@ -83,6 +93,7 @@ class EventsController extends Controller
         $type->save();
         return redirect()->route('addseat', ['id' => $type->event_id]);
     }
+
 
     public function typeJson($id) {
       $type = Type::findOrFail($id);

@@ -29,15 +29,24 @@
                   <h5>{{ $acara->name }}</h5>
                   <p>
                     <i class="mdi mdi-calendar "></i> {{ $acara->timeheld->format('d M Y')}}
-                    <i class="mdi mdi-clock "></i> {{ $acara->timeheld->format('H:i')}}
+                    <i class="mdi mdi-clock "></i> {{ $acara->timeheld->format('H:i')}} <br>
+                    {{--*/ $counter = 0 /*--}}
+                    @foreach($acara->type as $type)
+                    {{--*/ $counter += $type->tickets()->unpaid()->count() /*--}}
+                    @endforeach
+
+                    @if($counter <= 0)
+                      <i class="mdi mdi-check-all "></i> everything clear
+                    @else
+                      <i class="mdi mdi-alert-octagon red-text"></i> {{ $counter }} need approval
+                    @endif
                   </p>
                 </div>
               </div>
             </div>
             <div class="card-action right-align">
-              @foreach($acara->type as $type)
-                {{ $type->tickets()->unpaid()->count() }}
-              @endforeach
+              <a href="{{ URL::route('reportview', ['id' => $acara->id]) }}" class="btn waves-effect waves-light"><i class="mdi mdi-playlist-check"></i> Report</a>
+              <a href="{{ URL::route('approveView', ['id' => $acara->id]) }}" class="btn {{ $counter > 0 ? "orange":"blue" }} waves-effect waves-light">Approval</a>
               <a href="{{ URL::route('addseat', ['id' => $acara->id]) }}"><i class="mdi mdi-plus"></i><i class="mdi mdi-seat-legroom-normal"></i> Seat Manage</a>
               <a href="{{ URL::route('editEvent', ['id' => $acara->id]) }}" ><i class="mdi mdi-pencil"></i> Edit</a>
               <a href="{{ URL::route('showEvent', ['id' => $acara->id ]) }}" ><i class="mdi mdi-eye"></i> View</a>

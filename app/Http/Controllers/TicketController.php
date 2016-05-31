@@ -45,9 +45,13 @@ class TicketController extends Controller
     } catch (Exception $e) {
       return  "fail";
     }
-
-
     // return redirect()->route('ticketmanager');
+  }
+
+  
+
+  public function approve($id) {
+    return "approve ".$id;
   }
 
   public function print($id)

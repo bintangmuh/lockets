@@ -14,13 +14,13 @@
       <p>
         <a href="{{ URL::route('eventList')}}" class="breadcrumb">Event Manager</a>
         <a  class="breadcrumb">{{ $event->name }}</a>
-        <a  class="breadcrumb">Unapprove Tickets</a>
+        <a  class="breadcrumb">List Tickets</a>
       </p>
     </div>
     <div class="col s3">
       <ul class="collection">
         @foreach($event->type as $type)
-          <a href="#{{$type->id}}" class="tab collection-item linkto">{{ $type->name }} @if($type->tickets()->unpaid()->count() > 0)<span class="badge orange darken-1 white-text">{{ $type->tickets()->unpaid()->count() }}</span>@endif</a>
+          <a href="#{{$type->id}}" class="tab collection-item linkto">{{ $type->name }} <span class="badge yellow white-text">{{$type->tickets()->paid()->count()}}</span></a>
         @endforeach
       </ul>
     </div>
@@ -39,13 +39,12 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @foreach($type->tickets()->unpaid()->get() as $ticket)
+                  @foreach($type->tickets()->paid()->get() as $ticket)
                   <tr id="row-{{$ticket->id}}">
                     <td>{{$ticket->user->name}}</td>
                     <td>{{$ticket->created_at}}</td>
                     <td>{{$ticket->type->name}}-{{$ticket->id}} </td>
                     <td>
-                      <a href="#" class="btn waves-effect waves-light blue"><i class="mdi mdi-check"></i></a>
                       <a href="#" class="btn waves-effect waves-light red"><i class="mdi mdi-close"></i></a>
                     </td>
                   </tr>

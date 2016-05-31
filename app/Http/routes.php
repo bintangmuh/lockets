@@ -80,6 +80,16 @@ Route::get('event/{id}/addeseat', [
   'as' => 'addseat'
 ]);
 
+Route::get('event/{id}/approve', [
+  'uses' => 'EventsController@approveView',
+  'as' => 'approveView'
+]);
+
+Route::get('event/{id}/report', [
+  'uses' => 'EventsController@reportview',
+  'as' => 'reportview'
+]);
+
 Route::get('typejson')->name('urltype');
 
 Route::get('typejson/{id}/', [
