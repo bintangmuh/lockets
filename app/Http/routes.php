@@ -85,6 +85,16 @@ Route::get('event/{id}/approve', [
   'as' => 'approveView'
 ]);
 
+Route::get('approve/ticket/{id}', [
+  'uses' => 'TicketController@approve',
+  'as' => 'approveticket'
+]);
+
+Route::get('unapprove/ticket/{id}', [
+  'uses' => 'TicketController@cancel',
+  'as' => 'unapprovecontrol'
+]);
+
 Route::get('event/{id}/report', [
   'uses' => 'EventsController@reportview',
   'as' => 'reportview'
@@ -108,6 +118,8 @@ Route::post('event/{id}/editseat/{idseat}', [
   'uses' => 'EventsController@editseat',
   'as' => 'editseat'
 ]);
+
+
 
 //tanpa middleware
 Route::get('signup', [

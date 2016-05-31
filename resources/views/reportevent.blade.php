@@ -45,7 +45,7 @@
                     <td>{{$ticket->created_at}}</td>
                     <td>{{$ticket->type->name}}-{{$ticket->id}} </td>
                     <td>
-                      <a href="#" class="btn waves-effect waves-light red"><i class="mdi mdi-close"></i></a>
+                      <a href="#" data-ticket="{{$ticket->id}}" class="btn waves-effect waves-light red"><i class="mdi mdi-close"></i></a>
                     </td>
                   </tr>
                   @endforeach
@@ -64,5 +64,6 @@
   $(".button-collapse").sideNav();
   $('ul.collection').tabs();
   $('ul.collection').tabs('select_tab', 'tab_id');
+
   </script>
 @stop

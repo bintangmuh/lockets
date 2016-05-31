@@ -71,7 +71,7 @@ class EventsController extends Controller
       $event->description = Input::get('desc');
       $event->save();
 
-      return redirect('showEvent',['id' => $event->id]);
+      return redirect()->route('showEvent',['id' => $event->id]);
     }
 
     public function approveView($id) {

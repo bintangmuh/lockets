@@ -9,6 +9,7 @@ use App\User as User;
 use App\Event as Event;
 use App\Ticket as Ticket;
 use App\Type as Type;
+use Carbon\Carbon as Carbon;
 use Input;
 
 class UserController extends Controller
@@ -38,7 +39,7 @@ class UserController extends Controller
 
     public function home()
     {
-      $events = Event::all();
+      $events = Event::where('timeheld','>=', Carbon::now())->get();
       $user = User::find(1);
       return view('Beranda', ['events' => $events, 'user' => $user]);
     }

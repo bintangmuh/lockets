@@ -37,6 +37,7 @@ class TicketController extends Controller
     }
     return redirect()->route('ticketmanager');
   }
+
   public function cancel($id) {
     try {
       $ticket = Ticket::findOrFail($id);
@@ -48,10 +49,17 @@ class TicketController extends Controller
     // return redirect()->route('ticketmanager');
   }
 
-  
+
 
   public function approve($id) {
-    return "approve ".$id;
+    try {
+      $ticket = Ticket::findOrFail($id);
+      $ticket->paid = 1;
+      $ticket->save();
+      return "berhasil";
+    } catch (Exception $e) {
+      return  "fail";
+    }
   }
 
   public function print($id)

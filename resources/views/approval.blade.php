@@ -45,8 +45,8 @@
                     <td>{{$ticket->created_at}}</td>
                     <td>{{$ticket->type->name}}-{{$ticket->id}} </td>
                     <td>
-                      <a href="#" class="btn waves-effect waves-light blue"><i class="mdi mdi-check"></i></a>
-                      <a href="#" class="btn waves-effect waves-light red"><i class="mdi mdi-close"></i></a>
+                      <a href="#" data-ticket="{{$ticket->id}}" class="btn waves-effect waves-light blue accept-btn"><i class="mdi mdi-check"></i></a>
+                      <a href="#" data-ticket="{{$ticket->id}}" class="btn waves-effect waves-light red reject-btn"><i class="mdi mdi-close"></i></a>
                     </td>
                   </tr>
                   @endforeach
@@ -65,5 +65,45 @@
   $(".button-collapse").sideNav();
   $('ul.collection').tabs();
   $('ul.collection').tabs('select_tab', 'tab_id');
+
+  $('.accept-btn').click(function() {
+    var id = $(this).data('ticket');
+    console.log('clicke');
+    $.ajax({
+      url: '{{URL::route('index')}}/approve/ticket/'+id,
+      type: 'GET',
+      success: function(data) {
+        if (data == "berhasil") {
+          Materialize.toast('Ticket  approved', 4000);
+          $('#row-'+id).remove();
+        } else {
+          Materialize.toast('Ticket approve fail', 4000);
+        }
+      }
+    }).fail(function() {
+      Materialize.toast('Failed to connect', 4000);
+    });
+
+  });
+
+  $('.reject-btn').click(function() {
+    var id = $(this).data('ticket');
+    console.log('clicke');
+    $.ajax({
+      url: '{{URL::route('index')}}/unapprove/ticket/'+id,
+      type: 'GET',
+      success: function(data) {
+        if (data == "deleted") {
+          Materialize.toast('Ticket  deleted', 4000);
+          $('#row-'+id).remove();
+        } else {
+          Materialize.toast('Ticket delete fail', 4000);
+        }
+      }
+    }).fail(function() {
+      Materialize.toast('Failed to connect', 4000);
+    });
+
+  });
   </script>
 @stop
