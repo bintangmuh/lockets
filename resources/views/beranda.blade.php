@@ -25,26 +25,25 @@
               </p>
             </div>
             <div class="card-action">
-              <a href="#" class="teal-text"><i class="mdi mdi-pencil"></i> Edit Profil</a> <br>
+              <a href="{{ URL::route('edit')}}" class="teal-text"><i class="mdi mdi-pencil"></i> Edit Profil</a> <br>
             </div>
           </div>
-        </div>
-        <div class="col s12 m8">
-          <div class="col s6 m6">
             <div class="card">
               <div class="card-content center-align">
                 <p>
                   Have an Event? Why you don't try sell your ticket here?
                 </p>
-                <a href="{{ URL::route('createEventView') }}" class="btn-floating btn-large waves-effect waves-light red"><i class="mdi mdi-calendar-plus"></i></a>
-              </div>
+              <a href="{{ URL::route('createEventView') }}" class="btn-floating btn-large waves-effect waves-light red"><i class="mdi mdi-calendar-plus"></i></a>
             </div>
           </div>
+        </div>
+
+        <div class="col s12 m8">
           @foreach($events as $acara)
             <div class="col s6 m6">
               <div class="card">
                 <div class="card-image">
-                  <img src="{{ URL::asset('image/about.jpg') }}">
+                  <img src="{{ URL::route('imgup', ['filename' => $acara->image])}}">
                   <span class="card-title">{{ $acara->name }}</span>
                 </div>
                 <!-- <div class="card-content">

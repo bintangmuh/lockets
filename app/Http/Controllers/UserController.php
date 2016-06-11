@@ -10,7 +10,9 @@ use App\Event as Event;
 use App\Ticket as Ticket;
 use App\Type as Type;
 use Carbon\Carbon as Carbon;
+use Auth;
 use Input;
+use Hash;
 
 class UserController extends Controller
 {
@@ -30,7 +32,7 @@ class UserController extends Controller
       $newuser->username = Input::get('username');
       //full name
       $newuser->name = Input::get('name');
-      $newuser->password = Input::get('password');
+      $newuser->password = Hash::make(Input::get('password'));
       $newuser->email = Input::get('email');
       $newuser->save();
 
@@ -40,20 +42,29 @@ class UserController extends Controller
     public function home()
     {
       $events = Event::where('timeheld','>=', Carbon::now())->get();
-      $user = User::find(1);
-      return view('Beranda', ['events' => $events, 'user' => $user]);
+      $user = Auth::user();
+      return view('Beranda', ['events' => $events->sortByDesc('timeheld'), 'user' => $user]);
     }
 
 
-    public function editdata($id)
+    public function editprofile()
     {
-
+      return view('editprofile', ['user' => Auth::user()]);
     }
+
+    public function savechange()
+    {
+      $user = User::find(Auth::user()->id);
+      $user->name = Input::get('name');
+      $user->email = Input::get('email');
+      $user->save();
+    }
+
 
 
 
     public function eventlist() {
-      $user = User::find(1);
+      $user = Auth::user();
       return view('eventmanager',['event' => $user->events->sortByDesc('timeheld')]);
     }
 

@@ -111,6 +111,7 @@
     $(".button-collapse").sideNav();
     $('select').material_select();
     $('#edit').hide();
+
     $('.edit-btn').click(function() {
       $('#edit').slideUp('500');
       $('#edit').slideDown('500');
@@ -140,6 +141,8 @@
       });
 
     });
+
+
     @if (isset($success))
         Materialize.toast('{{ $success }}', 4000)
     @endif

@@ -6,13 +6,13 @@
         <li><a href="{{ URL::route('homeUrl') }}">Home</a></li>
         <li><a href="{{ URL::route('ticketmanager') }}">Ticket</a></li>
         <li><a href="{{ URL::route('eventList') }}">Event Manager</a></li>
-        <li><a href="#">Logout</a></li>
+        <li><a href="{{ URL::route('logout') }}">Logout</a></li>
       </ul>
       <ul class="side-nav" id="mobile-demo">
         <li><a href="{{ URL::route('homeUrl') }}">Home</a></li>
         <li><a href="{{ URL::route('ticketmanager') }}">Ticket</a></li>
         <li><a href="{{ URL::route('eventList') }}">Event Manager</a></li>
-        <li><a href="#">Logout</a></li>
+        <li><a href="{{ URL::route('logout') }}">Logout</a></li>
       </ul>
     </div>
   </nav>

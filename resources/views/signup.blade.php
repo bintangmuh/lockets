@@ -1,6 +1,6 @@
 @extends('master')
 @section('title')
-  Signup - LocketOnline
+  Signup - Lockets
 @stop
 
 @section('content')
@@ -13,7 +13,7 @@
       <p class="center-align">
         have an account? try <a href="{{ url('/login') }}">Login</a>
       </p>
-       <form class="col s12" method="post" action="{{ URL::route('createEvent') }}">
+       <form class="col s12" method="post" action="{{ URL::route('storeUser') }}">
          <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
          <div class="row">
            <div class="input-field col s12">

@@ -10,6 +10,8 @@ use App\User as User;
 use App\Event as Event;
 use App\Type as Type;
 use Input;
+use Auth;
+
 class TicketController extends Controller
 {
   public function showjson($id) {
@@ -18,14 +20,14 @@ class TicketController extends Controller
   }
 
   public function ticket() {
-    $user = User::find(1);
+    $user = Auth::user();
     $ticket = $user->ticket;
     // return $user->ticket;
     return view('ticketmanager', ['tickets' => $ticket]);
   }
 
   public function buyTicket($tyid) {
-    $user = User::find(1);
+    $user = Auth::user();
     $type = Type::find($tyid);
     if ((($type->limit) - ($type->tickets()->count())) > 0) {
       $ticket = new Ticket();

@@ -5,10 +5,12 @@
 @stop
 
 @section('content')
+@if(Auth::check())
   @include('partial.navbar')
+@endif
   <header class="parallax-container">
     <div class="parallax">
-      <img  src="{{ URL::asset('image/about.jpg')}}" class="responsive-img" alt="" />
+      <img  src="{{ URL::route('imgup', ['filename' => $event->image])}}" class="responsive-img" alt="" />
     </div>
     <div class="span-title white-text">
       <div class="container">
@@ -56,7 +58,9 @@
               <td class="center-align">{{ ($type->seat == 1) ? "Yes" : "No" }}</td>
               <td class="center-align">{{ (($type->limit - $type->tickets()->count())) }}</td>
               <td class="center-align">Rp.{{ $type->price }}</td>
+              @if(Auth::check())
               <td class="center-align"><a href="#" class="btn teal waves-effect waves-light buy" data-nametype="{{ $type->name }}" data-price="{{ $type->price }}" data-type="{{ $type->id }}"><i class="mdi mdi-cart"></i></a></td>
+              @endif
 
             </tr>
           @endforeach
@@ -64,7 +68,11 @@
         </tbody>
       </table>
     </p>
-    <!-- {{ $event->type }}a -->
+    @if(!Auth::check())
+      <p>
+        have an account? try <a href="{{URL::route('login')}}" class="btn">login</a>
+      </p>
+    @endif
   </div>
 
   <div id="formodal" class="modal">
@@ -95,7 +103,7 @@ $(document).ready(function(){
       $(".btn-skirim").attr('href', '{{ URL::route('index') }}/buy/'+$(this).data('type'));
     });
     $(".button-collapse").sideNav();
-    
+
   });
 
 </script>

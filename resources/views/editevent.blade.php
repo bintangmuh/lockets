@@ -33,11 +33,36 @@
            <label for="desc">Description</label>
          </div>
        </div>
+       <div class="col s12">
+         <img src="{{ URL::route('imgup', ['filename' => $event->image])}}" class="responsive-img" alt="" />
+         <a href="#upload" class="btn btn-ripple waves-effect waves-light modal-trigger"><i class="mdi mdi-camera add-photo"></i></a>
+       </div>
        <div class="row">
          <div class="input-field col s12">
-          <input type="submit" class="btn btn-teal" value="Create!">
+          <input type="submit" class="btn btn-teal" value="Edit!">
          </div>
        </div>
      </form>
    </div>
+
+   <div id="upload" class="modal">
+    <form action="{{ URL::route('uploadPhoto',['id' => $event->id]) }}" method="post" enctype="multipart/form-data">
+      <div class="modal-content">
+          <h5><i class="mdi mdi-camera add-photo"></i> Select image to upload:</h5>
+          <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
+          <input type="file" name="image" id="fileToUpload">
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class=" modal-action modal-close waves-effect waves-green btn teal">Upload</button>
+      <a class=" modal-action modal-close waves-effect waves-green btn-flat">Cancel</a>
+    </div>
+  </form>
+  </div>
+
+@stop
+
+@section('scriptjs')
+<script type="text/javascript">
+$('.modal-trigger').leanModal();
+</script>
 @stop

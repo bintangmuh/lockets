@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests;
 use App\Event as Event;
 use App\Type as Type;
 use Input;
+use Auth;
+use Carbon\Carbon;
+
 class EventsController extends Controller
 {
-    public function show() {
 
-    }
+
     public function showEvent($id) {
       $event = Event::find($id);
       return view('event2', ['event' => $event]);
@@ -24,11 +26,17 @@ class EventsController extends Controller
 
     public function addSeatView($id) {
       $event = Event::findOrFail($id);
+      if (Auth::user()->id != $event->user_id) {
+        return redirect()->route('forbidden');
+      }
       return view('addseat',['events' => $event]);
     }
 
     public function createSeat($id) {
       $event = Event::findOrFail($id);
+      if (Auth::user()->id != $event->user_id) {
+        return redirect()->route('forbidden');
+      }
       $type = new Type([
         'name' => Input::get('typename'),
         'seat' => Input::get('seat'),
@@ -41,11 +49,17 @@ class EventsController extends Controller
 
     public function editEventView($id) {
       $event = Event::findOrFail($id);
+      if (Auth::user()->id != $event->user_id) {
+        return redirect()->route('forbidden');
+      }
       return view('editevent',['event' => $event]);
     }
 
     public function editEvent($id) {
       $event = Event::findOrFail($id);
+      if (Auth::user()->id != $event->user_id) {
+        return redirect()->route('forbidden');
+      }
       $event->name = Input::get('name');
       $event->place = Input::get('place');
       $event->timeheld = Input::get('time');
@@ -65,7 +79,7 @@ class EventsController extends Controller
       //file handling
       $event->image = 'about.jpg';
       //author
-      $event->user_id = 1;
+      $event->user_id = Auth::user()->id;
 
       $event->timeheld = $date;
       $event->description = Input::get('desc');
@@ -76,11 +90,17 @@ class EventsController extends Controller
 
     public function approveView($id) {
       $event = Event::findOrFail($id);
+      if (Auth::user()->id != $event->user_id) {
+        return redirect()->route('forbidden');
+      }
       return view('approval', ['event' => $event]);
     }
 
     public function reportview($id) {
       $event = Event::findOrFail($id);
+      if (Auth::user()->id != $event->user_id) {
+        return redirect()->route('forbidden');
+      }
       return view('reportevent', ['event' => $event]);
     }
 
@@ -94,9 +114,53 @@ class EventsController extends Controller
         return redirect()->route('addseat', ['id' => $type->event_id]);
     }
 
+    public function upload($id) {
+      $file = array('image' => Input::file('image'));
+      $rules = array('image' => 'required');
+      $validator = Validator::make($file, $rules);
+      $event = Event::findOrFail($id);
+      if (Auth::user()->id != $event->user_id) {
+        return redirect()->route('forbidden');
+      }
+
+      if($validator->fails()) {
+        return Response::json('Error Saving', 500);
+      } else {
+        if(Input::file('image')->isValid()){
+          $path = storage_path().'/upload/';
+          $extension = Input::file('image')->getClientOriginalExtension();
+          $fileName = Carbon::now()->format('YmdHis').'.'.$extension;
+          Input::file('image')->move($path, $fileName);
+
+          $event->image = $fileName;
+          $success = $event->save();
+          if($success) {
+            return redirect()->route('editEventView', ['id' => $event->id]);
+          } else {
+            return redirect()->route('editEventView', ['id' => $event->id]);
+          }
+        } else {
+          return redirect()->route('editEventView', ['id' => $event->id]);
+        }
+      }
+    }
 
     public function typeJson($id) {
       $type = Type::findOrFail($id);
       return $type->toJson();
+    }
+    public function deletetype($id, $tyid) {
+      $event = Event::findOrFail($id);
+      if (Auth::user()->id != $event->user_id) {
+        return redirect()->route('forbidden');
+      }
+      $type = Type::findOrFail($tyid);
+      $success = $type->delete();
+
+      if ($success) {
+        return "berhasil";
+      } else {
+        return "gagal";
+      }
     }
 }

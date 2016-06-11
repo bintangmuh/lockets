@@ -10,134 +10,179 @@
 | and give it the controller to call when that URI is requested.
 |
 */
+Route::get('logout', [
+  'uses' => 'Auth\AuthController@logout',
+  'as' => 'logout'
+]);
 
-Route::get('/', function () {
-    $event =  App\Event::all();
+Route::group(['middleware' => 'guest'], function () {
+  Route::get('/', function () {
+    $event = App\Event::where('timeheld','>=', Carbon\Carbon::now())->get();
     return view('home', ['event' => $event]);
-})->name('index');
+  })->name('index');
+
+  Route::get('signup', [
+    'uses' => 'UserController@signupview',
+    'as' => 'signupView'
+  ]);
+
+  Route::get('login', function()
+  {
+    return view('login');
+  })->name('login');
 
 
+  Route::post('login', [
+    'uses' => 'Auth\AuthController@login',
+    'as' => 'loginPost'
+  ]);
 
-// Middleeware user, user yang bisa masuk
-Route::get('event/new', [
-  'uses' => 'EventsController@createEventView',
-  'as' => 'createEventView'
-]);
+  Route::post('signup', [
+    'uses' => 'UserController@store',
+    'as' => 'storeUser'
+  ]);
 
-Route::post('event/new', [
-  'uses' => 'EventsController@createEvent',
-  'as' => 'createEvent'
-]);
+});
 
-Route::get('home', [
-  'uses' => 'UserController@home',
-  'as' => 'homeUrl'
-]);
 
-Route::get('edit', [
-  'uses' => 'UserController@home',
-  'as' => 'edit'
-]);
+Route::get('file/{filename}', function($filename) {
+    $file = Storage::disk('public')->get($filename);
+    return response($file, 200)->header('Content-Type', 'image/jpeg');
+})->name('imgup');
 
-Route::get('eventmanager',[
-  'uses' => 'UserController@eventlist',
-  'as' => 'eventList'
-]);
+Route::get('unauthorized', function()
+{
+  return view('forbidden');
+})->name('forbidden');
 
-Route::get('tickets', [
-  'uses' => 'TicketController@ticket',
-  'as' => 'ticketmanager'
-]);
 
-Route::get('buy/{id}', [
-  'uses' => 'TicketController@buyTicket',
-  'as' => 'buyTicket'
-]);
+Route::group(['middleware' => 'auth'], function () {
+  // Middleeware user, user yang bisa masuk
+  Route::get('event/new', [
+    'uses' => 'EventsController@createEventView',
+    'as' => 'createEventView'
+  ]);
 
-Route::get('cancel/{id}', [
-  'uses' => 'TicketController@cancel',
-  'as' => 'cancelticket'
-]);
+  Route::post('event/new', [
+    'uses' => 'EventsController@createEvent',
+    'as' => 'createEvent'
+  ]);
 
-//middleware user punya ticket
-Route::get('print/{id}', [
-  'uses' => 'TicketController@print',
-  'as' => 'printticket'
-]);
-//middleware user author, penulis yang hanya bisa masuk
-Route::get('event/{id}/edit', [
-  'uses' => 'EventsController@editEventView',
-  'as' => 'editEventView'
-]);
+  Route::get('home', [
+    'uses' => 'UserController@home',
+    'as' => 'homeUrl'
+  ]);
 
-Route::post('event/{id}/edit', [
-  'uses' => 'EventsController@editEvent',
-  'as' => 'editEvent'
-]);
+  Route::get('edit', [
+    'uses' => 'UserController@editprofile',
+    'as' => 'edit'
+  ]);
+  Route::post('edit', [
+    'uses' => 'UserController@savechange',
+    'as' => 'savechange'
+  ]);
 
-Route::get('event/{id}/addeseat', [
-  'uses' => 'EventsController@addSeatView',
-  'as' => 'addseat'
-]);
+  Route::get('eventmanager',[
+    'uses' => 'UserController@eventlist',
+    'as' => 'eventList'
+  ]);
 
-Route::get('event/{id}/approve', [
-  'uses' => 'EventsController@approveView',
-  'as' => 'approveView'
-]);
+  Route::get('tickets', [
+    'uses' => 'TicketController@ticket',
+    'as' => 'ticketmanager'
+  ]);
 
-Route::get('approve/ticket/{id}', [
-  'uses' => 'TicketController@approve',
-  'as' => 'approveticket'
-]);
+  Route::get('buy/{id}', [
+    'uses' => 'TicketController@buyTicket',
+    'as' => 'buyTicket'
+  ]);
 
-Route::get('unapprove/ticket/{id}', [
-  'uses' => 'TicketController@cancel',
-  'as' => 'unapprovecontrol'
-]);
+  Route::get('cancel/{id}', [
+    'uses' => 'TicketController@cancel',
+    'as' => 'cancelticket'
+  ]);
+  //middleware user author, penulis yang hanya bisa masuk
+    Route::get('event/{id}/edit', [
+    'uses' => 'EventsController@editEventView',
+    'as' => 'editEventView'
+    ]);
 
-Route::get('event/{id}/report', [
-  'uses' => 'EventsController@reportview',
-  'as' => 'reportview'
-]);
+    Route::post('event/{id}/edit', [
+    'uses' => 'EventsController@editEvent',
+    'as' => 'editEvent'
+    ]);
 
-Route::get('typejson')->name('urltype');
+    Route::get('event/{id}/addeseat', [
+    'uses' => 'EventsController@addSeatView',
+    'as' => 'addseat'
+    ]);
 
-Route::get('typejson/{id}/', [
-  'uses' => 'EventsController@typeJson',
-  'as' => 'jsontype'
-]);
+    Route::get('event/{id}/approve', [
+    'uses' => 'EventsController@approveView',
+    'as' => 'approveView'
+    ]);
 
-Route::post('event/{id}/addeseat', [
-  'uses' => 'EventsController@createSeat',
-  'as' => 'createSeat'
-]);
+    Route::get('approve/ticket/{id}', [
+    'uses' => 'TicketController@approve',
+    'as' => 'approveticket'
+    ]);
 
-Route::get('event/{id}/editseat')->name('posteditform');
+    Route::get('unapprove/ticket/{id}', [
+    'uses' => 'TicketController@cancel',
+    'as' => 'unapprovecontrol'
+    ]);
 
-Route::post('event/{id}/editseat/{idseat}', [
-  'uses' => 'EventsController@editseat',
-  'as' => 'editseat'
-]);
+    Route::get('event/{id}/report', [
+    'uses' => 'EventsController@reportview',
+    'as' => 'reportview'
+    ]);
+
+    Route::get('typejson')->name('urltype');
+
+    Route::get('typejson/{id}/', [
+    'uses' => 'EventsController@typeJson',
+    'as' => 'jsontype'
+    ]);
+
+    Route::post('event/{id}/addeseat', [
+    'uses' => 'EventsController@createSeat',
+    'as' => 'createSeat'
+    ]);
+
+    Route::post('event/{id}/deleteseat/{tyid}', [
+    'uses' => 'EventsController@deletetype',
+    'as' => 'deletetype'
+    ]);
+
+    Route::post('event/{id}/uploaad', [
+    'uses' => 'EventsController@upload',
+    'as' => 'uploadPhoto'
+    ]);
+
+    Route::get('event/{id}/editseat')->name('posteditform');
+
+    Route::post('event/{id}/editseat/{idseat}', [
+    'uses' => 'EventsController@editseat',
+    'as' => 'editseat'
+    ]);
+  //middleware user punya ticket
+  Route::get('print/{id}', [
+    'uses' => 'TicketController@print',
+    'as' => 'printticket'
+  ]);
+});
 
 
 
 //tanpa middleware
-Route::get('signup', [
-  'uses' => 'UserController@signupview',
-  'as' => 'signupView'
-]);
-
-Route::get('login', function()
-{
-  return view('login');
-});
-
-Route::post('signup', [
-  'uses' => 'UserController@store',
-  'as' => 'storeUser'
-]);
-
 Route::get('event/{id}', [
   'uses' => 'EventsController@showEvent',
   'as' => 'showEvent'
 ]);
+Route::get('ceklogin', function()
+{
+  if (Auth::check()) {
+    return Auth::user()->id;
+  }
+  return "false";
+});

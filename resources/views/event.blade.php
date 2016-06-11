@@ -7,7 +7,7 @@
 @section('content')
   <header class="parallax-container">
     <div class="parallax">
-      <img  src="{{ URL::asset('image/about.jpg')}}" class="responsive-img" alt="" />
+      <img  src="{{ URL::route('imgup', ['filename' => $event->image])}}" class="responsive-img" alt="" />
     </div>
     <div class="span-title white-text">
       <div class="container">

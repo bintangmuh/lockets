@@ -23,7 +23,7 @@
             <div class="card-content">
               <div class="row">
                 <div class="col s6 m3">
-                  <img class="responsive-img" src="{{ URL::asset('image/about.jpg') }}" alt="{{ $acara->name }}" />
+                  <img class="responsive-img" src="{{ URL::route('imgup', ['filename' => $acara->image])}}" alt="{{ $acara->name }}" />
                 </div>
                 <div class="col s6 m9">
                   <h5>{{ $acara->name }}</h5>

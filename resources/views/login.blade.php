@@ -13,7 +13,7 @@
       <p class="center-align">
         Don't have an account? Please <a href="{{ URL::route('signupView') }}">sign up</a>
       </p>
-       <form class="col s12" method="post" action="{{ URL::route('storeUser') }}">
+       <form class="col s12" method="post" action="{{ URL::route('loginPost') }}">
          <input name="_token" type="hidden" value="{!! csrf_token() !!}" />
          <div class="row">
            <div class="input-field col s12">

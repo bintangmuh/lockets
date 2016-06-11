@@ -26,7 +26,7 @@
           <div class="col s12 m4">
             <div class="card">
               <div class="card-image">
-                <img src="{{ URL::asset('image/about.jpg') }}">
+                <img src="{{ URL::route('imgup', ['filename' => $acara->image])}}">
                 <span class="card-title truncate">{{ $acara->name }}</span>
               </div>
               <!-- <div class="card-content">
