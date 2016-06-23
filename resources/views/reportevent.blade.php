@@ -35,7 +35,6 @@
                     <th data-field="type">Name</th>
                     <th data-field="seat">Date Trans</th>
                     <th data-field="seat">Number Trans</th>
-                    <th data-field="seat">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -44,9 +43,6 @@
                     <td>{{$ticket->user->name}}</td>
                     <td>{{$ticket->created_at}}</td>
                     <td>{{$ticket->type->name}}-{{$ticket->id}} </td>
-                    <td>
-                      <a href="#" data-ticket="{{$ticket->id}}" class="btn waves-effect waves-light red"><i class="mdi mdi-close"></i></a>
-                    </td>
                   </tr>
                   @endforeach
                 </tbody>

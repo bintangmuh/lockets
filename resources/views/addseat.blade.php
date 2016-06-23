@@ -34,7 +34,6 @@
                 <td class="center-align">Rp.{{ $type->price }}</td>
                 <td class="right-align">
                   <a href="#edit" data-typeid="{{ $type->id  }}" class="btn waves-effect waves-light edit-btn"><i class="mdi mdi-pencil"></i></a>
-                  <a href="#edit" class="btn waves-effect waves-light red lighten-1"><i class="mdi mdi-delete"></i></a>
                 </td>
               </tr>
             @endforeach

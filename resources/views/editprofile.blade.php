@@ -12,7 +12,6 @@
 <div class="container white z-depth-1 form-contain">
   <div class="row">
     <h5><i class="mdi mdi-account-circle"></i> Edit</h5>
-    {{ $user }}
     <form action="{{ URL::route('savechange') }}" method="post">
       <input name="_token" type="hidden" value="{!! csrf_token() !!}" >
       <div class="input-field col s12">

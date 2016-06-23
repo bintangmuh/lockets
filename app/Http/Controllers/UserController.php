@@ -58,6 +58,7 @@ class UserController extends Controller
       $user->name = Input::get('name');
       $user->email = Input::get('email');
       $user->save();
+      return view('editprofile', ['user' => Auth::user()]);
     }
 
 
